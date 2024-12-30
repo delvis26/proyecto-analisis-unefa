@@ -13,6 +13,8 @@ export default function Sidebar() {
   const { roleUser } = useContext(UserContext);
   const pathname = usePathname()
 
+  const handleCloseSideBar = () => closeSideBar()
+
   return (
     <>
       <div
@@ -35,6 +37,7 @@ export default function Sidebar() {
               return (
                 <li key={index}>
                   <Link
+                    onClick={handleCloseSideBar}
                     className={`relative text-black/80 w-full inline-flex px-5 py-2.5 rounded-xl text-base gap-2 items-center ${pathname.includes(href) ? "bg-black/5" : "hover:bg-black/5"} transition-colors`}
                     href={href}
                   >
@@ -47,7 +50,7 @@ export default function Sidebar() {
             })}
           </ul>
           <span className="text-[11px] text-center text-gray-600">
-            Desarrollado por{" "}
+            Desarrollado por
             <strong className="text-blue-700">UNEFA LARA</strong>
           </span>
         </div>

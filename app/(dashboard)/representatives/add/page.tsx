@@ -1,18 +1,81 @@
+"use client";
+
+import { RegisterRepresentative } from "@/actions/register-representative";
+import { MESSAGES } from "@/lib/consts";
+import { FormEvent, useCallback, useState } from "react";
+import { toast } from "sonner";
+
 export default function AddRepresentative() {
+  const [pending, setPeding] = useState(false);
+  const [errorInputIdCard, setErrorInputIdCard] = useState(false);
+  const [errorInputEmail, setErrorInputEmail] = useState(false);
+  const [errorInputPhone, setErrorInputPhone] = useState(false);
+
+  const handleInputIdCard = useCallback(() => {
+    setErrorInputIdCard(false)
+  }, [])
+
+  const handleInputEmail = useCallback(() => {
+    setErrorInputEmail(false)
+  }, [])
+
+  const handleInputPhone = useCallback(() => {
+    setErrorInputPhone(false)
+  }, [])
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const $form = event.currentTarget;
+    const formData = new FormData($form);
+    setPeding(true);
+
+    const toastId = toast.loading("Enviando datos...");
+
+    try {
+      const data = await RegisterRepresentative(formData);
+
+      if (data?.error) {
+        setPeding(false);
+
+        if (data.error === MESSAGES.REGISTERED_IDENTITY_CARD)
+          setErrorInputIdCard(true)
+        if (data.error === MESSAGES.PHONE_NUMBER_IS_REGISTERED)
+          setErrorInputPhone(true)
+        if (data.error === MESSAGES.EMAIL_IS_REGISTERED)
+          setErrorInputEmail(true)
+
+        return toast.error(data.error, {
+          id: toastId,
+        });
+      }
+
+      toast.success(MESSAGES.RECORD_ADDED_SUCCESSFULLY, {
+        id: toastId,
+      });
+      setPeding(false);
+      $form.reset();
+    } catch {
+      setPeding(false);
+      toast.error(MESSAGES.ERROR, {
+        id: toastId,
+      });
+    }
+  };
+
   return (
     <section className="bg-white rounded-xl p-5 border border-black/5 shadow-sm flex flex-col gap-5">
-      <h1 className="text-center text-xl font-bold">
-        REGISTRAR REPRESENTANTE
-      </h1>
-      <form className="flex flex-col gap-4">
+      <h1 className="text-center text-xl font-bold">REGISTRAR REPRESENTANTE</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex items-center gap-3">
           <input
+            required
             className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
             type="text"
             placeholder="Nombre"
             name="name"
           />
           <input
+            required
             className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
             type="text"
             placeholder="Segundo nombre"
@@ -22,12 +85,14 @@ export default function AddRepresentative() {
 
         <div className="flex items-center gap-3">
           <input
+            required
             className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
             type="text"
             placeholder="Apellido"
             name="last_name"
           />
           <input
+            required
             className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
             type="text"
             placeholder="Segundo apellido"
@@ -36,14 +101,23 @@ export default function AddRepresentative() {
         </div>
 
         <div className="flex flex-col md:flex-row items-center gap-3">
-          <div className="relative w-full border border-black/20 transition-shadow ring-blue-500/20 focus-within:ring-[3px] rounded-xl overflow-hidden">
-            <div className="absolute inset-y-0 flex items-center"> 
-                <select name="nationality" className="h-full outline-none px-3 border-r border-black/20 bg-transparent">
-                    <option value="V">V</option>
-                    <option value="E">E</option>
-                </select>
+          <div
+            className={`relative w-full border ${
+              errorInputIdCard ? "border-red-500" : "border-black/20"
+            } transition-shadow ring-blue-500/20 focus-within:ring-[3px] rounded-xl overflow-hidden`}
+          >
+            <div className="absolute inset-y-0 flex items-center">
+              <select
+                onChange={handleInputIdCard}
+                name="nationality"
+                className="h-full outline-none px-3 border-r border-black/20 bg-transparent"
+              >
+                <option value="V">V</option>
+                <option value="E">E</option>
+              </select>
             </div>
             <input
+              onChange={handleInputIdCard}
               required
               name="identification_number"
               className="w-full pl-16 pr-3 py-3 outline-none"
@@ -52,27 +126,39 @@ export default function AddRepresentative() {
             />
           </div>
           <input
-            className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
+            onChange={handleInputPhone}
+            required
+            className={`w-full px-3 py-3 rounded-xl border ${
+              errorInputPhone ? "border-red-500" : "border-black/20"
+            } transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none`}
             type="text"
             placeholder="Telefono"
             name="phone"
           />
           <input
-            className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
+            onChange={handleInputEmail}
+            required
+            className={`w-full px-3 py-3 rounded-xl border ${
+              errorInputEmail ? "border-red-500" : "border-black/20"
+            } transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none`}
             type="email"
             placeholder="Correo electronico"
             name="email"
           />
         </div>
         <input
-            className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
-            type="text"
-            placeholder="Dirección"
-            name="adress"
-          />
-        
-        <button className="p-3 disabled:opacity-70 rounded-xl bg-blue-700 text-white font-semibold hover:bg-blue-800 transition-colors duration-150 uppercase">
-            Registrar
+          required
+          className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
+          type="text"
+          placeholder="Dirección"
+          name="adress"
+        />
+
+        <button
+          disabled={pending}
+          className="p-3 disabled:opacity-70 rounded-xl bg-blue-700 text-white font-semibold hover:bg-blue-800 transition-colors duration-150 uppercase"
+        >
+          Registrar
         </button>
       </form>
     </section>

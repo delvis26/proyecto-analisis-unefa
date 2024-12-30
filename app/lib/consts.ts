@@ -9,6 +9,10 @@ export const MESSAGES = {
     RECORD_ADDED_SUCCESSFULLY: '¡Registro añadido con exito!'
 }
 
+export const API_ERRORS = {
+    TOKEN_EXPIRED: 'jwt expired'
+}
+
 export const USERS_ROLES = {
     DIRECTOR: 'DIRECTOR',
     REPRESENTATIVE: 'REPRESENTANTE',

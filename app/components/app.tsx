@@ -1,6 +1,7 @@
 "use client";
 
 import UserContext from "@/store/user-context";
+import { Toaster } from "sonner";
 
 interface User {
   id?: string;
@@ -19,6 +20,9 @@ export function App({
   userSession: User;
 }) {
   return (
-    <UserContext.Provider value={userSession}>{children}</UserContext.Provider>
+    <UserContext.Provider value={userSession}>
+      {children}
+      <Toaster richColors position="bottom-right" closeButton />
+    </UserContext.Provider>
   );
 }
