@@ -44,7 +44,7 @@ export default function Representatives() {
   }, [])
 
   const handlePreviousPage = useCallback((previousPage: number) => {
-    if(previousPage <= 0) return
+    if(previousPage < 0) return
 
     setCurrentPage(previousPage)
   }, [])
