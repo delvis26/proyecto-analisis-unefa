@@ -19,12 +19,12 @@ export default function Sidebar() {
     <>
       <div
         onClick={closeSideBar}
-        className={`absolute bg-black/70 w-full min-h-screen z-40 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`absolute z-[60] bg-black/70 w-full min-h-screen z-40 backdrop-blur-sm transition-opacity duration-300 ${
           displaySideBarState ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       ></div>
       <div
-        className={`bg-white z-50 fixed ${
+        className={`bg-white z-[60] fixed ${
           displaySideBarState ? "left-0" : "-left-full"
         } transition-all duration-300 md:static flex-col gap-5 h-screen max-w-72 w-full items-center py-5 overflow-y-auto flex border-r border-black/10 shadow-sm`}
       >
