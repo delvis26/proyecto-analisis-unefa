@@ -4,8 +4,11 @@ import { GetRepresentatives } from "@/actions/get-representatives";
 import RepresentativeItemList from "@/components/director/representative-item-list";
 import { IconSearch, IconUsersPlus } from "@/components/icons";
 import Spinner from "@/components/spinner";
+import { USERS_ROLES } from "@/lib/consts";
+import UserContext from "@/store/user-context";
 import Link from "next/link";
-import { ChangeEvent, useEffect, useState } from "react";
+import { redirect } from "next/navigation";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 
 interface Representative {
   fullName: string;
@@ -38,6 +41,10 @@ export default function Representatives() {
       clearTimeout(handlerTimeout);
     };
   }, [search]);
+
+  const session = useContext(UserContext)
+
+  if(session.roleUser !== USERS_ROLES.DIRECTOR) return redirect('/home')
 
   return (
     <section className="bg-white rounded-xl p-4 border border-black/5 shadow-sm flex flex-col gap-4">

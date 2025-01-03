@@ -16,7 +16,7 @@ export default function FormLogin() {
         const formData = new FormData(event.currentTarget);
         setPeding(true)
         const toastId = toast.loading('Cargando...')
-        
+
         try {
             const data = await signIn(formData);
 
@@ -41,7 +41,7 @@ export default function FormLogin() {
                 id: toastId
             })
         }
-        
+
     }
 
   return (
@@ -82,7 +82,7 @@ export default function FormLogin() {
       </div>
       <Link href="#" className="text-blue-600 font-semibold self-start">
         ¿Olvidaste tu contraseña?
-      </Link> 
+      </Link>
       <button disabled={pending} className="p-3 disabled:opacity-70 rounded-xl bg-blue-700 text-white font-semibold hover:bg-blue-800 transition-colors duration-150">
         INGRESAR
       </button>

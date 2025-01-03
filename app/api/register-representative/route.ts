@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
       middle_name,
       last_name,
       second_last_name,
+      gender,
       nationality,
       identification_number,
       phone,
@@ -60,6 +61,8 @@ export async function POST(request: NextRequest) {
     )
       return NextResponse.json({ error: "Bad request" }, { status: 400 });
 
+    if(!gender) return NextResponse.json({ error: MESSAGES.ERROR_SELECTED_GENDER }, { status: 400 })
+
     const identification = `${nationality}${identification_number}`;
 
     const findRepresentative = await db
@@ -72,8 +75,6 @@ export async function POST(request: NextRequest) {
           eq(Users.phone, phone)
         )
       );
-
-    console.log(findRepresentative);
 
     if (findRepresentative.length > 0) {
       const representative = findRepresentative[0];
@@ -110,6 +111,7 @@ export async function POST(request: NextRequest) {
     await db.insert(Users).values({
       id: userId,
       fullName: fullName,
+      gender: gender,
       identification: identification,
       email: email,
       password: hashedPassword,

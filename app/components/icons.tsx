@@ -373,3 +373,121 @@ export const IconUsersPlus = ({ className }: Props) => (
     <path d="M19 16v6" />
   </svg>
 );
+
+export const IconId = ({ className }: Props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.25"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" />
+    <path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+    <path d="M15 8l2 0" />
+    <path d="M15 12l2 0" />
+    <path d="M7 16l10 0" />
+  </svg>
+);
+
+export const IconMail = ({ className }: Props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.25"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
+    <path d="M3 7l9 6l9 -6" />
+  </svg>
+);
+
+export const IconPhone = ({ className }: Props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.25"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" />
+  </svg>
+);
+
+export const IconEdit = ({ className }: Props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.25"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+    <path d="M16 5l3 3" />
+  </svg>
+);
+
+export const IconMapPin = ({ className }: Props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.25"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+    <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" />
+  </svg>
+);
+
+export const IconGenderMale = ({ className }: Props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.25"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 14m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0" />
+    <path d="M19 5l-5.4 5.4" />
+    <path d="M19 5h-5" />
+    <path d="M19 5v5" />
+  </svg>
+);
+
+export const IconGenderFemale = ({ className }: Props) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.25"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M12 9m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0" />
+    <path d="M12 14v7" />
+    <path d="M9 18h6" />
+  </svg>
+);

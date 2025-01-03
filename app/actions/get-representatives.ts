@@ -2,7 +2,7 @@
 
 import { db } from "@/db";
 import { Users } from "@/db/schema";
-import { REPRESENTATIVES_STATUS, USERS_ROLES } from "@/lib/consts";
+import { USERS_ROLES } from "@/lib/consts";
 import { eq, and, like, or } from "drizzle-orm";
 
 export async function GetRepresentatives(search: string,) {

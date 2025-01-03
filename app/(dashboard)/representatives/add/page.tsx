@@ -1,8 +1,10 @@
 "use client";
 
 import { RegisterRepresentative } from "@/actions/register-representative";
-import { MESSAGES } from "@/lib/consts";
-import { FormEvent, useCallback, useState } from "react";
+import { GENDERS, MESSAGES, USERS_ROLES } from "@/lib/consts";
+import UserContext from "@/store/user-context";
+import { redirect } from "next/navigation";
+import { FormEvent, useCallback, useContext, useState } from "react";
 import { toast } from "sonner";
 
 export default function AddRepresentative() {
@@ -10,23 +12,29 @@ export default function AddRepresentative() {
   const [errorInputIdCard, setErrorInputIdCard] = useState(false);
   const [errorInputEmail, setErrorInputEmail] = useState(false);
   const [errorInputPhone, setErrorInputPhone] = useState(false);
+  const [errorInputGender, setErrorInputGender] = useState(false);
 
   const handleInputIdCard = useCallback(() => {
-    setErrorInputIdCard(false)
-  }, [])
+    setErrorInputIdCard(false);
+  }, []);
 
   const handleInputEmail = useCallback(() => {
-    setErrorInputEmail(false)
-  }, [])
+    setErrorInputEmail(false);
+  }, []);
 
   const handleInputPhone = useCallback(() => {
-    setErrorInputPhone(false)
-  }, [])
+    setErrorInputPhone(false);
+  }, []);
+
+  const handleInputGender = useCallback(() => {
+    setErrorInputGender(false);
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const $form = event.currentTarget;
     const formData = new FormData($form);
+
     setPeding(true);
 
     const toastId = toast.loading("Enviando datos...");
@@ -38,11 +46,13 @@ export default function AddRepresentative() {
         setPeding(false);
 
         if (data.error === MESSAGES.REGISTERED_IDENTITY_CARD)
-          setErrorInputIdCard(true)
+          setErrorInputIdCard(true);
         if (data.error === MESSAGES.PHONE_NUMBER_IS_REGISTERED)
-          setErrorInputPhone(true)
+          setErrorInputPhone(true);
         if (data.error === MESSAGES.EMAIL_IS_REGISTERED)
-          setErrorInputEmail(true)
+          setErrorInputEmail(true);
+        if (data.error === MESSAGES.ERROR_SELECTED_GENDER)
+          setErrorInputGender(true);
 
         return toast.error(data.error, {
           id: toastId,
@@ -61,6 +71,10 @@ export default function AddRepresentative() {
       });
     }
   };
+
+  const session = useContext(UserContext);
+
+  if (session.roleUser !== USERS_ROLES.DIRECTOR) return redirect("/home");
 
   return (
     <section className="bg-white rounded-xl p-5 border border-black/5 shadow-sm flex flex-col gap-5">
@@ -135,17 +149,32 @@ export default function AddRepresentative() {
             placeholder="Telefono"
             name="phone"
           />
-          <input
-            onChange={handleInputEmail}
-            required
+
+          <select
+            onChange={handleInputGender}
+            name="gender"
+            defaultValue="null"
             className={`w-full px-3 py-3 rounded-xl border ${
-              errorInputEmail ? "border-red-500" : "border-black/20"
+              errorInputGender ? "border-red-500" : "border-black/20"
             } transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none`}
-            type="email"
-            placeholder="Correo electronico"
-            name="email"
-          />
+          >
+            <option value="null" disabled>
+              Sexo
+            </option>
+            <option value={GENDERS.MALE}>Masculino</option>
+            <option value={GENDERS.FEMALE}>Femenino</option>
+          </select>
         </div>
+        <input
+          onChange={handleInputEmail}
+          required
+          className={`w-full px-3 py-3 rounded-xl border ${
+            errorInputEmail ? "border-red-500" : "border-black/20"
+          } transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none`}
+          type="email"
+          placeholder="Correo electronico"
+          name="email"
+        />
         <input
           required
           className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"

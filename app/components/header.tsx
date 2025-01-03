@@ -18,7 +18,7 @@ export default function Header() {
   const { fullName } = useContext(UserContext)
 
   return (
-    <header className="sticky top-0 md:static flex flex-row p-5 justify-between items-center w-full bg-white gap-2 border-b border-black/5 shadow-sm">
+    <header className="sticky top-0 md:static flex flex-row p-5 justify-between items-center w-full bg-white gap-2 border-b border-black/5 shadow-sm z-50">
       <div className="flex flex-row items-center">
         <button onClick={openSideBar} className="md:hidden">
           <IconMenu2 className="w-8 h-8 opacity-70" />
@@ -33,7 +33,7 @@ export default function Header() {
             <IconUserCircle className="w-8 h-8" />
           </button>
 
-          <div className="absolute pointer-events-none opacity-0 group-focus-within:pointer-events-auto group-focus-within:opacity-100 top-9 right-0 bg-white shadow-md rounded-lg border border-black/10 overflow-hidden transition-opacity duration-200">
+          <div className="z-50 absolute pointer-events-none opacity-0 group-focus-within:pointer-events-auto group-focus-within:opacity-100 top-9 right-0 bg-white shadow-md rounded-lg border border-black/10 overflow-hidden transition-opacity duration-200">
             <ul className="flex flex-col justify-center">
               <li>
                 <Link
