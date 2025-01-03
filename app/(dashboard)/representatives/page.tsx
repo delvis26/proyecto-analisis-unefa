@@ -3,7 +3,7 @@
 import { GetRepresentatives } from "@/actions/get-representatives";
 import RepresentativeItemList from "@/components/director/representative-item-list";
 import { IconArrowNarrow, IconSearch, IconUsersPlus } from "@/components/icons";
-import Spinner from "@/components/spinner";
+import TextSkeleton from "@/components/skeleton";
 import { USERS_ROLES } from "@/lib/consts";
 import UserContext from "@/store/user-context";
 import Link from "next/link";
@@ -41,7 +41,7 @@ export default function Representatives() {
     if(nextPage >= totalPages) return
 
     setCurrentPage(nextPage)
-  }, [])
+  }, [totalPages])
 
   const handlePreviousPage = useCallback((previousPage: number) => {
     if(previousPage < 0) return
@@ -139,8 +139,10 @@ export default function Representatives() {
             </div>
           )}
           {pending && (
-            <div className="my-2 flex justify-center items-center">
-              <Spinner />
+            <div className="my-2 flex flex-col gap-2 justify-center items-center">
+              {Array.from({ length: 10 }, (_, index) => (
+                <TextSkeleton key={index} h="40px" />
+              ))}
             </div>
           )}
         </div>
