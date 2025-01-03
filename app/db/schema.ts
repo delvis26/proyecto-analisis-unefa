@@ -7,7 +7,7 @@ export const Users = sqliteTable("users", {
     roleUser: text("role_user").notNull(),
     fullName: text("full_name").notNull(),
     gender: text("gender").notNull(),
-    identification: text("identification").notNull(),
+    identification: text("identification").notNull().unique(),
     email: text("email").notNull().unique(),
     phone: text("phone").notNull().unique(),
     adress: text("adress").notNull().unique(),

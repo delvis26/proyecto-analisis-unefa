@@ -2,13 +2,19 @@
 
 import { GetRepresentatives } from "@/actions/get-representatives";
 import RepresentativeItemList from "@/components/director/representative-item-list";
-import { IconSearch, IconUsersPlus } from "@/components/icons";
+import { IconArrowNarrow, IconSearch, IconUsersPlus } from "@/components/icons";
 import Spinner from "@/components/spinner";
 import { USERS_ROLES } from "@/lib/consts";
 import UserContext from "@/store/user-context";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface Representative {
   fullName: string;
@@ -20,18 +26,45 @@ export default function Representatives() {
   const [representatives, setRepresentatives] = useState<Representative[]>([]);
   const [pending, setPending] = useState(true);
   const [search, setSearch] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [rowsCount, setRowsCount] = useState<number>(0);
 
-  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
-  };
+  }, []);
+
+  const handleSetPage = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
+  const handleNextPage = useCallback((nextPage: number) => {
+    if(nextPage >= totalPages) return
+
+    setCurrentPage(nextPage)
+  }, [])
+
+  const handlePreviousPage = useCallback((previousPage: number) => {
+    if(previousPage <= 0) return
+
+    setCurrentPage(previousPage)
+  }, [])
 
   useEffect(() => {
     const handlerTimeout = setTimeout(async () => {
       setPending(true);
 
       try {
-        const data = await GetRepresentatives(search);
+        const { data, count } = await GetRepresentatives(search, currentPage);
+
         setRepresentatives(data);
+
+        if (count !== undefined) {
+          setRowsCount(count);
+
+          const calculatedTotalPages = Math.ceil(count / 10);
+          setTotalPages(calculatedTotalPages);
+        }
       } finally {
         setPending(false);
       }
@@ -40,17 +73,17 @@ export default function Representatives() {
     return () => {
       clearTimeout(handlerTimeout);
     };
-  }, [search]);
+  }, [search, currentPage]);
 
-  const session = useContext(UserContext)
+  const session = useContext(UserContext);
 
-  if(session.roleUser !== USERS_ROLES.DIRECTOR) return redirect('/home')
+  if (session.roleUser !== USERS_ROLES.DIRECTOR) return redirect("/home");
 
   return (
-    <section className="bg-white rounded-xl p-4 border border-black/5 shadow-sm flex flex-col gap-4">
-      <h1 className="text-center text-xl font-bold">REPRESENTANTES</h1>
+    <section className="bg-white rounded-xl p-4 border border-black/5 shadow-sm flex flex-col">
+      <h1 className="text-center text-xl font-bold mb-4">REPRESENTANTES</h1>
 
-      <div className="flex flex-row justify-between gap-4">
+      <div className="flex flex-row justify-between gap-4 mb-4">
         <div>
           <form>
             <div className="relative">
@@ -91,9 +124,18 @@ export default function Representatives() {
 
         <div className="flex flex-col">
           {pending === false &&
-            representatives.map(({ identification, fullName, status }, index) => (
-              <RepresentativeItemList key={identification} fullName={fullName} identification={identification} status={status} index={index} length={representatives.length - 1} />
-            ))}
+            representatives.map(
+              ({ identification, fullName, status }, index) => (
+                <RepresentativeItemList
+                  key={identification}
+                  fullName={fullName}
+                  identification={identification}
+                  status={status}
+                  index={index}
+                  length={representatives.length - 1}
+                />
+              )
+            )}
           {pending === false && representatives.length === 0 && (
             <div className="flex py-2 justify-center items-center">
               Sin resultados
@@ -106,6 +148,36 @@ export default function Representatives() {
           )}
         </div>
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center border-t border-dashed border-gray-300 pt-3">
+          <div className="flex flex-row gap-1">
+            <button onClick={() => handlePreviousPage(currentPage - 1)} className="flex justify-center items-center rounded-lg border border-gray-300 p-0.5">
+              <IconArrowNarrow className="w-7 h-7 opacity-80" />
+            </button>
+
+            <div className="flex flex-row gap-1 items-center justify-center">
+              {Array.from({ length: totalPages }, (_, index) => {
+                return (
+                  <button
+                    onClick={() => handleSetPage(index)}
+                    className={`w-[33.6px] h-full rounded-lg transition-colors ${
+                      currentPage === index ? "bg-black/10" : "hover:bg-black/5"
+                    }`}
+                    key={index}
+                  >
+                    {index + 1}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button onClick={() => handleNextPage(currentPage + 1)} className="flex justify-center items-center rounded-lg border border-gray-300 p-0.5">
+              <IconArrowNarrow className="w-7 h-7 opacity-80 rotate-180" />
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
