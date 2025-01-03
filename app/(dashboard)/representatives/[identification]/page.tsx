@@ -121,21 +121,6 @@ export default function Representative() {
 
             <div className="flex flex-col gap-2">
               <span className="flex gap-2 p-2 border border-gray-400 border-dashed rounded-lg items-center justify-between flex-1">
-                <div className="flex flex-1 gap-2 items-center">
-                  <IconMail className="w-8 h-8 stroke-gray-500" />
-                  {pendingData === false && `${data?.email}`}
-                  {pendingData === true && <TextSkeleton h="27px" />}
-                </div>
-
-                {roleUser ===
-                  (USERS_ROLES.DIRECTOR || USERS_ROLES.REPRESENTATIVE) && (
-                  <button>
-                    <IconEdit className="p-1 w-9 h-9 text-gray-500 hover:bg-black/5 transition-colors rounded-md" />
-                  </button>
-                )}
-              </span>
-
-              <span className="flex gap-2 p-2 border border-gray-400 border-dashed rounded-lg items-center justify-between flex-1">
                 <div className="flex flex-1 gap-2 items-center overflow-hidden">
                   <IconMapPin className="w-8 h-8 stroke-gray-500" />
                   {pendingData === false && `${data?.adress}`}
