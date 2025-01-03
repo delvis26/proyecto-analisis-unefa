@@ -28,7 +28,6 @@ export default function Representatives() {
   const [search, setSearch] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [rowsCount, setRowsCount] = useState<number>(0);
 
   const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -60,8 +59,6 @@ export default function Representatives() {
         setRepresentatives(data);
 
         if (count !== undefined) {
-          setRowsCount(count);
-
           const calculatedTotalPages = Math.ceil(count / 10);
           setTotalPages(calculatedTotalPages);
         }
