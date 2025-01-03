@@ -61,7 +61,11 @@ export async function POST(request: NextRequest) {
     )
       return NextResponse.json({ error: "Bad request" }, { status: 400 });
 
-    if(!gender) return NextResponse.json({ error: MESSAGES.ERROR_SELECTED_GENDER }, { status: 400 })
+    if (!gender)
+      return NextResponse.json(
+        { error: MESSAGES.ERROR_SELECTED_GENDER },
+        { status: 400 }
+      );
 
     const identification = `${nationality}${identification_number}`;
 
@@ -121,10 +125,10 @@ export async function POST(request: NextRequest) {
       status: REPRESENTATIVES_STATUS.INSOLVENT,
     });
   } catch (e) {
-    if (e.message === API_ERRORS.TOKEN_EXPIRED)
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-
-    console.log(e);
+    if (e instanceof Error) {
+      if (e.message === API_ERRORS.TOKEN_EXPIRED)
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
     return NextResponse.json({ error: MESSAGES.ERROR }, { status: 500 });
   }
