@@ -46,7 +46,7 @@ export const navigationLinks: NavLink[] = [
   {
     href: "/students-represented",
     icon: <IconSchool className="w-6 h-6" />,
-    label: "Estudiantes representados",
+    label: "Estudiantes",
     type_user: USERS_ROLES.REPRESENTATIVE,
   },
   {

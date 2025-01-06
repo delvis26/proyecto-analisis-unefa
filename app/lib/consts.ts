@@ -29,3 +29,17 @@ export const GENDERS = {
     MALE: 'MASCULINO',
     FEMALE: 'FEMENINO'
 }
+
+export const STUDENTS_STATUS = {
+    PENDUNDER_REVIEW: "REVISION",
+    VERIFIED: "VERIFICADO"
+}
+
+export const YEARS_TO_STUDY = {
+    FIRST_YEAR: 1 ,
+    SECOND_YEAR: 2,
+    THIRD_YEAR: 3,
+    FOURTH_YEAR: 4,
+    FIFTH_YEAR: 5
+}
+

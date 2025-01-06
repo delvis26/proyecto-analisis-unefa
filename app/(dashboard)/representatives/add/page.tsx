@@ -159,7 +159,7 @@ export default function AddRepresentative() {
             } transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none`}
           >
             <option value="null" disabled>
-              Sexo
+              Genero
             </option>
             <option value={GENDERS.MALE}>Masculino</option>
             <option value={GENDERS.FEMALE}>Femenino</option>
