@@ -123,6 +123,7 @@ export async function POST(request: NextRequest) {
       phone: phone,
       roleUser: USERS_ROLES.REPRESENTATIVE,
       status: REPRESENTATIVES_STATUS.INSOLVENT,
+      createdAt: new Date().toISOString()
     });
   } catch (e) {
     if (e instanceof Error) {
