@@ -33,7 +33,6 @@ export default async function RootLayout({
 
   const secret = process.env.SECRET_JWT_KEY as string;
   const data = jwt.verify(token.value, secret) as User;
-
   return (
     <html lang="es">
       <body className="antialiased min-h-screen bg-[#f0f3f7] flex flex-row">

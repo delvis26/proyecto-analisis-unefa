@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { sqliteTable, text, numeric } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, numeric, real } from "drizzle-orm/sqlite-core";
 
 export const Users = sqliteTable("users", {
   id: text("id").notNull().primaryKey().unique(),
@@ -27,6 +27,18 @@ export const Students = sqliteTable("students", {
     .references(() => Users.id),
 });
 
+export const Payments = sqliteTable("payments", {
+  id: text("id").notNull().primaryKey().unique(),
+  phone: text("phone").notNull(),
+  bank: text("bank").notNull(),
+  identification: text("identification").notNull(),
+  bankReference: text("bank_reference").notNull(),
+  amount: real("amount").notNull(),
+  studentId: text("student_id").notNull().references(() => Students.id),
+  representativeId: text("representative_id").notNull().references(() => Users.id),
+  createdAt: text("created_at").notNull()
+})
+
 export const parentRelation = relations(Users, ({ many }) => ({
   Students: many(Students),
 }));
@@ -37,3 +49,25 @@ export const StudentParentRelation = relations(Students, ({ one }) => ({
     references: [Users.id],
   }),
 }));
+
+export const StudentPaymentRelation = relations(Students, ({ many }) => ({
+  payments: many(Payments)
+}))
+
+export const PaymentStudentRelation = relations(Payments, ({ one }) => ({
+  student: one(Students, {
+    fields: [Payments.studentId],
+    references: [Students.id]
+  })
+}))
+
+export const UserPaymentRelation = relations(Users, ({ many }) => ({
+  payments: many(Payments)
+})) 
+
+export const PaymentUserRelation = relations(Payments, ({ one }) => ({
+  user: one(Users, {
+    fields: [Payments.representativeId],
+    references: [Users.id]
+  })
+}))

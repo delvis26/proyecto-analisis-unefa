@@ -4,9 +4,9 @@ import { createContext } from "react";
 
 interface User {
   id?: string;
-  username?: string;
   fullName?: string;
   roleUser?: string;
+  identification?: string;
   exp?: number;
   iat?: number;
 }

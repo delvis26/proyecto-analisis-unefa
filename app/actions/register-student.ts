@@ -19,10 +19,13 @@ export async function RegsiterStudent(formData: FormData) {
 
     const { error } = await res.json();
 
-    if (error)
+    if (error) {
+      console.log(error)
       return {
         error: error,
       };
+    }
+      
   } catch (error) {
     console.log(error);
   }

@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
       id: user.id,
       fullName: user.fullName,
       roleUser: user.roleUser,
+      identification: user.identification
     },
     secret,
     {

@@ -35,6 +35,8 @@ export default function Representative() {
   const { roleUser } = useContext(UserContext);
 
   useEffect(() => {
+    if (roleUser === USERS_ROLES.REPRESENTATIVE) return redirect("/home");
+
     const getInfo = async () => {
       try {
         const representativeInfo = await GetRepresentativesInfo(identification);
@@ -56,7 +58,8 @@ export default function Representative() {
     getInfo();
   }, [identification]);
 
-  if(roleUser !== USERS_ROLES.DIRECTOR && roleUser !== USERS_ROLES.TEACHER) return redirect('/home')
+  if (roleUser !== USERS_ROLES.DIRECTOR && roleUser !== USERS_ROLES.TEACHER)
+    return redirect("/home");
 
   return (
     <>
@@ -81,7 +84,16 @@ export default function Representative() {
 
               <span className="flex gap-2 p-2 border border-gray-400 border-dashed rounded-lg items-center justify-between flex-1">
                 <div className="flex flex-1 gap-2 items-center overflow-hidden">
-                  {pendingData === false && <>{data?.gender === GENDERS.MALE ? <IconGenderMale className="w-8 h-8 stroke-gray-500" /> : <IconGenderFemale className="w-8 h-8 stroke-gray-500" />} {data?.gender}</>}
+                  {pendingData === false && (
+                    <>
+                      {data?.gender === GENDERS.MALE ? (
+                        <IconGenderMale className="w-8 h-8 stroke-gray-500" />
+                      ) : (
+                        <IconGenderFemale className="w-8 h-8 stroke-gray-500" />
+                      )}{" "}
+                      {data?.gender}
+                    </>
+                  )}
                   {pendingData === true && <TextSkeleton h="27px" />}
                 </div>
               </span>

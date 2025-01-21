@@ -73,4 +73,10 @@ export const navigationLinks: NavLink[] = [
     label: "Configuración",
     type_user: USERS_ROLES.DIRECTOR,
   },
+  {
+    href: "/payments",
+    icon: <IconCash className="w-6 h-6" />,
+    label: "Pagos",
+    type_user: USERS_ROLES.REPRESENTATIVE
+  }
 ];

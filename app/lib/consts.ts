@@ -7,7 +7,8 @@ export const MESSAGES = {
     EMAIL_IS_REGISTERED: 'El correo electronico se encuentra registrado',
     PHONE_NUMBER_IS_REGISTERED: 'El numero de telefono se encuentra registrado',
     RECORD_ADDED_SUCCESSFULLY: '¡Registro añadido con exito!',
-    ERROR_SELECTED_GENDER: "Indique un sexo"
+    ERROR_SELECTED_GENDER: "Indique un sexo",
+    ERROR_SELECTED_COURSE: "Indique el año a cursar"
 }
 
 export const API_ERRORS = {

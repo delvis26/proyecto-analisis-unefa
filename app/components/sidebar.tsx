@@ -50,8 +50,8 @@ export default function Sidebar() {
             })}
           </ul>
           <span className="text-[11px] text-center text-gray-600">
-            Desarrollado por
-            <strong className="text-blue-700">UNEFA LARA</strong>
+            Desarrollado por 
+            <strong className="text-blue-700"> UNEFA LARA</strong>
           </span>
         </div>
       </div>

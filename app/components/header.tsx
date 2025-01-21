@@ -26,7 +26,7 @@ export default function Header() {
       </div>
       <div className="flex flex-row items-center gap-2 relative">
         <span className="text-black/80">
-          Bienvenido, <strong>{fullName?.split(" ").at(0)}</strong>
+          Bienvenido/a, <strong>{fullName?.split(" ").at(0)}</strong>
         </span>
         <div className="relative flex items-center group">
           <button>

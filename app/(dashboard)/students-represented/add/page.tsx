@@ -1,25 +1,61 @@
 "use client";
 
 import { RegsiterStudent } from "@/actions/register-student";
-import { GENDERS, YEARS_TO_STUDY } from "@/lib/consts";
-import { FormEvent } from "react";
+import { GENDERS, MESSAGES, YEARS_TO_STUDY } from "@/lib/consts";
+import { FormEvent, useCallback, useState } from "react";
+import { toast } from "sonner";
 
 export default function StudensRepresentedAdd() {
+  const [errorInputGender, setErrorInputGender] = useState(false);
+  const [errorInputCourse, setErrorInputCourse] = useState(false);
+  const [pending, setPending] = useState(false);
+
+  const handleInputGender = useCallback(() => {
+    setErrorInputGender(false);
+  }, []);
+
+  const handleInputCourse = useCallback(() => {
+    setErrorInputCourse(false);
+  }, []);
+
   const handleRegisterStudent = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const $form = event.currentTarget
-    const formData = new FormData($form)
+    event.preventDefault();
+    const $form = event.currentTarget;
+    const formData = new FormData($form);
+
+    setPending(true);
+    const toastId = toast.loading("Enviando datos...");
 
     try {
-      const data = await RegsiterStudent(formData)
-      
-      if(data) {
-        console.log(data)
-      }
-    } catch {
+      const data = await RegsiterStudent(formData);
 
+      if (data?.error) {
+        setPending(false);
+
+        if (data.error === MESSAGES.ERROR_SELECTED_GENDER)
+          setErrorInputGender(true);
+
+        if(data.error === MESSAGES.ERROR_SELECTED_COURSE)
+          setErrorInputCourse(true)
+
+        return toast.error(data.error, {
+          id: toastId,
+        });
+      }
+
+      toast.success(MESSAGES.RECORD_ADDED_SUCCESSFULLY, {
+        id: toastId
+      })
+
+      setPending(false)
+
+      $form.reset()
+    } catch {
+      return toast.error("Algo ha ido mal", {
+        id: toastId,
+      });
     }
-  }
+  };
 
   return (
     <section className="bg-white rounded-xl p-5 border border-black/5 shadow-sm flex flex-col gap-5">
@@ -61,10 +97,10 @@ export default function StudensRepresentedAdd() {
 
         <div className="flex items-center gap-3">
           <select
-            onChange={() => console.log("...")}
+            onChange={handleInputGender}
             name="gender"
             defaultValue="null"
-            className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
+            className={`w-full px-3 py-3 rounded-xl border ${errorInputGender ? "border-red-500" : "border-black/20"} transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none`}
           >
             <option value="null" disabled>
               Genero
@@ -74,10 +110,10 @@ export default function StudensRepresentedAdd() {
           </select>
 
           <select
-            onChange={() => console.log("...")}
+            onChange={handleInputCourse}
             name="course"
             defaultValue="null"
-            className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
+            className={`w-full px-3 py-3 rounded-xl border ${errorInputCourse ? "border-red-500" : "border-black/20"} transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none`}
           >
             <option value="null" disabled>
               Año a iniciar
@@ -90,7 +126,7 @@ export default function StudensRepresentedAdd() {
           </select>
         </div>
 
-        <button className="p-3 disabled:opacity-70 rounded-xl bg-blue-700 text-white font-semibold hover:bg-blue-800 transition-colors duration-150 uppercase">
+        <button disabled={pending} className={`p-3 disabled:opacity-70 rounded-xl bg-blue-700 text-white font-semibold hover:bg-blue-800 transition-colors duration-150 uppercase ${pending && "opacity-50 pointer-events-none"}`}>
           Registrar
         </button>
       </form>
