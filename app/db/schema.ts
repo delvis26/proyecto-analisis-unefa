@@ -34,6 +34,7 @@ export const Payments = sqliteTable("payments", {
   identification: text("identification").notNull(),
   bankReference: text("bank_reference").notNull(),
   amount: real("amount").notNull(),
+  concept: text("concept").notNull(),
   studentId: text("student_id").notNull().references(() => Students.id),
   representativeId: text("representative_id").notNull().references(() => Users.id),
   createdAt: text("created_at").notNull()

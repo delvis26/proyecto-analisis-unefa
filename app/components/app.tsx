@@ -22,7 +22,7 @@ export function App({
   return (
     <UserContext.Provider value={userSession}>
       {children}
-      <Toaster richColors position="bottom-right" closeButton />
+      <Toaster richColors position="bottom-right" closeButton className="z-50" />
     </UserContext.Provider>
   );
 }

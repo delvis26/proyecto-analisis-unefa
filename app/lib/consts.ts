@@ -44,3 +44,25 @@ export const YEARS_TO_STUDY = {
     FIFTH_YEAR: 5
 }
 
+export const BANKS = {
+    BDV: "Banco de Venezuela",
+    BANESCO: "Banesco",
+    MERCANTIL: "Mercantil",
+    PROVINCIAL: "Banco Provincial",
+    BANCAMIGA: "Bancamiga"
+}
+
+export const ARRAY_BANKS = [
+    { name: "Banco de Venezuela" },
+    { name: "Banesco" },
+    { name: "Mercantil" },
+    { name: "Banco Provincial" },
+    { name: "Bancamiga" }
+]
+
+export const ARRAY_CONCEPTS = [
+    { concept: "Inscripcion", amount: 100 },
+    { concept: "Mensualidad", amount: 50 },
+    { concept: "Constancia de notas", amount: 25 },
+    { concept: "Constancia de estudio", amount: 30 }
+]
