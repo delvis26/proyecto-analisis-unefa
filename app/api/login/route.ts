@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     },
     secret,
     {
-      expiresIn: "1h",
+      expiresIn: "8h",
     }
   );
 

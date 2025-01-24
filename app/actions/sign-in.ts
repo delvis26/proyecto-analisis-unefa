@@ -26,7 +26,7 @@ export async function signIn(formData: FormData) {
       httpOnly: true,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60,
+      maxAge: 8 * 60 * 60,
     });
     
 

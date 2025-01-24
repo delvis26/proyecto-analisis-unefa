@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 export async function GetRepresentativesInfo(identification: string) {
   const data = await db
     .select({
+      id: Users.id,
       fullName: Users.fullName,
       gender: Users.gender,
       identification: Users.identification,

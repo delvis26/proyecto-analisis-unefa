@@ -61,8 +61,8 @@ export const ARRAY_BANKS = [
 ]
 
 export const ARRAY_CONCEPTS = [
-    { concept: "Inscripcion", amount: 100 },
-    { concept: "Mensualidad", amount: 50 },
-    { concept: "Constancia de notas", amount: 25 },
-    { concept: "Constancia de estudio", amount: 30 }
+    { label: "Inscripción", concept: "INSCRIPCION", amount: 100 },
+    { label: "Mensualidad", concept: "MENSUALIDAD", amount: 50 },
+    { label: "Constancia de notas", concept: "CN", amount: 25 },
+    { label: "Constancia de estudios", concept: "CE", amount: 30 }
 ]

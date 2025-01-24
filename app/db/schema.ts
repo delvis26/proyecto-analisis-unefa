@@ -32,7 +32,7 @@ export const Payments = sqliteTable("payments", {
   phone: text("phone").notNull(),
   bank: text("bank").notNull(),
   identification: text("identification").notNull(),
-  bankReference: text("bank_reference").notNull(),
+  bankReference: text("bank_reference").notNull().unique(),
   amount: real("amount").notNull(),
   concept: text("concept").notNull(),
   studentId: text("student_id").notNull().references(() => Students.id),

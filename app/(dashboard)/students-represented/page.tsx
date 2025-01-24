@@ -1,7 +1,13 @@
 "use client";
 
 import { GetStudentsRepresented } from "@/actions/get-students-represented";
-import { IconChecks, IconClockHour3, IconEye, IconSearch, IconUsersPlus } from "@/components/icons";
+import {
+  IconChecks,
+  IconClockHour3,
+  IconEye,
+  IconSearch,
+  IconUsersPlus,
+} from "@/components/icons";
 import TextSkeleton from "@/components/skeleton";
 import { STUDENTS_STATUS } from "@/lib/consts";
 import UserContext from "@/store/user-context";
@@ -126,6 +132,12 @@ export default function StudensRepresented() {
               {Array.from({ length: 10 }, (_, index) => (
                 <TextSkeleton key={index} h="40px" />
               ))}
+            </div>
+          )}
+
+          {pending === false && data.length === 0 && (
+            <div className="flex py-2 justify-center items-center">
+              Sin resultados
             </div>
           )}
         </div>

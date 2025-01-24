@@ -62,7 +62,7 @@ export const navigationLinks: NavLink[] = [
     type_user: USERS_ROLES.DIRECTOR,
   },
   {
-    href: "#",
+    href: "/payments",
     icon: <IconCash className="w-6 h-6" />,
     label: "Pagos",
     type_user: USERS_ROLES.DIRECTOR,
@@ -74,9 +74,9 @@ export const navigationLinks: NavLink[] = [
     type_user: USERS_ROLES.DIRECTOR,
   },
   {
-    href: "/payments",
+    href: "/my-payments",
     icon: <IconCash className="w-6 h-6" />,
-    label: "Pagos",
+    label: "Mis pagos",
     type_user: USERS_ROLES.REPRESENTATIVE
   }
 ];

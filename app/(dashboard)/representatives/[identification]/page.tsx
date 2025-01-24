@@ -1,6 +1,8 @@
 "use client";
 
+import { GetPayments } from "@/actions/get-payments";
 import { GetRepresentativesInfo } from "@/actions/get-representatives-info";
+import { GetStudentsRepresented } from "@/actions/get-students-represented";
 import {
   IconEdit,
   IconGenderFemale,
@@ -12,12 +14,18 @@ import {
   IconUserCircle,
 } from "@/components/icons";
 import TextSkeleton from "@/components/skeleton";
-import { GENDERS, REPRESENTATIVES_STATUS, USERS_ROLES } from "@/lib/consts";
+import {
+  ARRAY_CONCEPTS,
+  GENDERS,
+  REPRESENTATIVES_STATUS,
+  USERS_ROLES,
+} from "@/lib/consts";
 import UserContext from "@/store/user-context";
 import { redirect, useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 interface Representative {
+  id: string;
   fullName: string;
   identification: string;
   gender: string;
@@ -27,10 +35,35 @@ interface Representative {
   adress: string;
 }
 
+interface studentsInfo {
+  id: string;
+  fullName: string;
+  gender: string;
+  status: string;
+  createdAt: string;
+  course: string;
+  representativeId: string;
+}
+
+interface Payments {
+  identification: string;
+  id: string;
+  phone: string;
+  createdAt: string;
+  representativeId: string;
+  bank: string;
+  bankReference: string;
+  amount: number;
+  concept: string;
+  studentId: string;
+}
+
 export default function Representative() {
   const params = useParams();
   const identification = params.identification as string;
   const [data, setData] = useState<Representative>();
+  const [dataStudents, setDataStudents] = useState<studentsInfo[]>([]);
+  const [dataPayments, setDataPayments] = useState<Payments[]>([]);
   const [pendingData, setPendingData] = useState(true);
   const { roleUser } = useContext(UserContext);
 
@@ -40,6 +73,24 @@ export default function Representative() {
     const getInfo = async () => {
       try {
         const representativeInfo = await GetRepresentativesInfo(identification);
+
+        if (representativeInfo !== undefined) {
+          const studentsInfo = await GetStudentsRepresented(
+            representativeInfo.id
+          );
+
+          if (studentsInfo) {
+            setDataStudents(studentsInfo);
+          }
+        }
+
+        if (representativeInfo !== undefined) {
+          const paymentsInfo = await GetPayments(representativeInfo.id);
+
+          if (paymentsInfo) {
+            setDataPayments(paymentsInfo.slice(0, 3));
+          }
+        }
 
         if (representativeInfo) {
           const phoneOperator = representativeInfo.phone.slice(0, 4);
@@ -56,7 +107,7 @@ export default function Representative() {
     };
 
     getInfo();
-  }, [identification]);
+  }, []);
 
   if (roleUser !== USERS_ROLES.DIRECTOR && roleUser !== USERS_ROLES.TEACHER)
     return redirect("/home");
@@ -87,9 +138,9 @@ export default function Representative() {
                   {pendingData === false && (
                     <>
                       {data?.gender === GENDERS.MALE ? (
-                        <IconGenderMale className="w-8 h-8 stroke-gray-500" />
+                        <IconGenderMale className="w-8 h-8 stroke-blue-600" />
                       ) : (
-                        <IconGenderFemale className="w-8 h-8 stroke-gray-500" />
+                        <IconGenderFemale className="w-8 h-8 stroke-pink-600" />
                       )}{" "}
                       {data?.gender}
                     </>
@@ -181,20 +232,88 @@ export default function Representative() {
         </div>
 
         <div className="h-full px-5 py-0 md:py-5 md:px-0 flex flex-col md:flex-row bg-white rounded-xl border border-black/5 shadow-sm">
-          <div className="px-0 py-5 md:py-0 md:px-5 flex flex-col flex-1 border-b md:border-b-0 md:border-r border-dashed border-gray-400">
+          <div className="px-0 py-5 md:py-0 md:px-5 flex flex-col flex-1 gap-2 border-b md:border-b-0 md:border-r border-dashed border-gray-400">
             <h2 className="text-xl font-bold uppercase">Estudiantes</h2>
-            <span className="text-gray-500 text-lg">
-              No posee estudiantes registrados
-            </span>
+            {dataStudents.length > 0 &&
+              dataStudents.map((student) => (
+                <div
+                  key={student.id}
+                  className="bg-black/5 shadow-sm p-2 rounded-lg flex flex-col md:flex-row"
+                >
+                  <div className="flex-1">{student.fullName}</div>
+                  <div className="flex-1">
+                    <strong>Cursando:</strong>{" "}
+                    {Number(student.course) === 1 && "1er año"}
+                    {Number(student.course) === 2 && "2do año"}
+                    {Number(student.course) === 3 && "3er año"}
+                    {Number(student.course) === 4 && "4to año"}
+                    {Number(student.course) === 5 && "5to año"}
+                  </div>
+                  <div className="flex flex-row items-center gap-1 flex-1">
+                    {student.gender === GENDERS.MALE ? (
+                      <IconGenderMale className="w-5 h-5 stroke-blue-600" />
+                    ) : (
+                      <IconGenderFemale className="w-5 h-5 stroke-pink-600" />
+                    )}
+                    {student.gender}
+                  </div>
+                </div>
+              ))}
+            {pendingData === false && dataStudents.length === 0 && (
+              <span className="text-gray-500 text-lg">
+                No posee estudiantes registrados
+              </span>
+            )}
+            {pendingData === true && (
+              <div className="flex flex-col gap-2">
+                <TextSkeleton h="43.2px" />
+                <TextSkeleton h="43.2px" />
+              </div>
+            )}
           </div>
 
-          <div className="px-0 py-5 md:py-0 md:px-5 max-w-96 w-full">
+          <div className="px-0 py-5 md:py-0 md:px-5 max-w-96 w-full flex flex-col gap-2">
             <h2 className="text-xl font-bold uppercase">
               Ultimos pagos realizados
             </h2>
-            <span className="text-gray-500 text-lg">
-              No posee pagos realizados
-            </span>
+
+            {pendingData === false &&
+              dataPayments.length > 0 &&
+              dataPayments.map((payment) => (
+                <div
+                  className="bg-black/5 p-2 rounded-lg flex flex-col"
+                  key={payment.id}
+                >
+                  <span>
+                    <strong>Bs.</strong> {payment.amount}
+                  </span>
+                  <span className="text-xs">
+                    <strong>Concepto:</strong>{" "}
+                    {payment.concept === ARRAY_CONCEPTS[0].concept &&
+                      ARRAY_CONCEPTS[0].label}
+                    {payment.concept === ARRAY_CONCEPTS[1].concept &&
+                      ARRAY_CONCEPTS[1].label}
+                    {payment.concept === ARRAY_CONCEPTS[2].concept &&
+                      ARRAY_CONCEPTS[2].label}
+                    {payment.concept === ARRAY_CONCEPTS[3].concept &&
+                      ARRAY_CONCEPTS[3].label}
+                  </span>
+                </div>
+              ))}
+
+            {pendingData === false && dataPayments.length === 0 && (
+              <span className="text-gray-500 text-lg">
+                No posee pagos realizados
+              </span>
+            )}
+
+            {pendingData === true && (
+              <div className="flex flex-col gap-2">
+                <TextSkeleton h="43.2px" />
+                <TextSkeleton h="43.2px" />
+                <TextSkeleton h="43.2px" />
+              </div>
+            )}
           </div>
         </div>
       </section>

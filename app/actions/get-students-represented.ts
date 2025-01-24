@@ -11,7 +11,5 @@ export async function GetStudentsRepresented(userId: string) {
     .select()
     .from(Students)
     .where(eq(Students.representativeId, userId));
-
-
   return data;
 }
