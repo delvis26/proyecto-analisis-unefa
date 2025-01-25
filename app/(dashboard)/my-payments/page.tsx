@@ -7,13 +7,13 @@ import {
   IconCashRegister,
   IconCircleCheckFilled,
   IconExclamationCircle,
-  IconEye,
+  IconFileTypePdf,
   IconSearch,
 } from "@/components/icons";
 import TextSkeleton from "@/components/skeleton";
 import { ARRAY_BANKS, ARRAY_CONCEPTS } from "@/lib/consts";
 import UserContext from "@/store/user-context";
-import Link from "next/link";
+
 import {
   ChangeEvent,
   FormEvent,
@@ -183,13 +183,10 @@ export default function Payments() {
                   <div>{payment.amount} Bs</div>
                   <div className="flex justify-center">{formatedDate}</div>
                   <div className="flex justify-end">
-                    <Link
-                      className="p-1 md:px-2 bg-blue-600 hover:bg-blue-800 transition-colors text-white rounded-lg shadow flex justify-center items-center gap-1"
-                      href={`payments/${payment.id}`}
-                    >
-                      <IconEye className="w-6 h-6" />
-                      <span className="hidden md:block">Visualizar</span>
-                    </Link>
+                    <button className="p-1 md:px-2 bg-red-600 hover:bg-red-800 transition-colors text-white rounded-lg shadow flex justify-center items-center gap-1">
+                      <IconFileTypePdf className="w-6 h-6" />
+                      <span className="hidden md:block">Recibo</span>
+                    </button>
                   </div>
                 </div>
               );
