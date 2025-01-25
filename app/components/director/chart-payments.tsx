@@ -5,7 +5,7 @@ import { Chart as ChartJS, ArcElement } from 'chart.js/auto'
 ChartJS.register(ArcElement)
 
 const data = {
-    labels: ["Inscripciones", "Mensualidades", "Documentos"],
+    labels: ["Inscripciones", "Mensualidades", "Documentos emitidos por control de estudio"],
     datasets: [
       {
         label: "Monto",

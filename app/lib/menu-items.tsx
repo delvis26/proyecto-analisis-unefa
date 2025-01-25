@@ -1,3 +1,5 @@
+"use client"
+
 import {
   IconHome,
   IconUsersGroup,
@@ -66,6 +68,12 @@ export const navigationLinks: NavLink[] = [
     icon: <IconListLetters className="w-6 h-6" />,
     label: "Secciones",
     type_user: USERS_ROLES.DIRECTOR,
+  },
+  {
+    href: "#",
+    icon: <IconListLetters className="w-6 h-6" />,
+    label: "Mis secciones",
+    type_user: USERS_ROLES.TEACHER,
   },
   {
     href: "/payments",
