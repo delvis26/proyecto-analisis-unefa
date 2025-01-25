@@ -14,7 +14,7 @@ import {
   IconUserCircle,
 } from "@/components/icons";
 import TextSkeleton from "@/components/skeleton";
-import { GENDERS, USERS_ROLES } from "@/lib/consts";
+import { GENDERS, STUDENTS_STATUS, USERS_ROLES } from "@/lib/consts";
 import UserContext from "@/store/user-context";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -91,7 +91,7 @@ export default function Student() {
   return (
     <>
       <section className="flex flex-col md:flex-row gap-4">
-        <div className="p-5 flex flex-col items-center bg-white rounded-xl border border-black/5 shadow-sm flex-1">
+        <div className="p-5 flex flex-col items-center bg-white rounded-xl border border-black/5 shadow-sm flex-1 relative">
           <h3 className="text-center text-xl font-bold mb-4">ESTUDIANTE</h3>
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-col md:flex-row gap-4">
@@ -137,68 +137,125 @@ export default function Student() {
 
           <div className="p-2 border border-black/10 mt-2 rounded-lg w-full h-full flex flex-col">
             <h3 className="font-bold">NOTAS</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
-                <h4 className="font-semibold">Materia</h4>
-                <span>20/20</span>
-              </div>
-              <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
-                <h4 className="font-semibold">Materia</h4>
-                <span>20/20</span>
-              </div>
-              <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
-                <h4 className="font-semibold">Materia</h4>
-                <span>20/20</span>
-              </div>
-              <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
-                <h4 className="font-semibold">Materia</h4>
-                <span>20/20</span>
-              </div>
-              <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
-                <h4 className="font-semibold">Materia</h4>
-                <span>20/20</span>
-              </div>
-              <div className="relative">
-                {session.roleUser !== USERS_ROLES.REPRESENTATIVE ? (
+            {pending === false && (
+              <div className="grid grid-cols-2 gap-2">
+                {students?.students.status ===
+                  STUDENTS_STATUS.PENDUNDER_REVIEW && (
+                  <div className="p-2">
+                    <h4 className="text-black/50">
+                      No posee notas registradas
+                    </h4>
+                  </div>
+                )}
+                {students?.students.status !==
+                  STUDENTS_STATUS.PENDUNDER_REVIEW && (
                   <>
-                    <button
-                      onClick={() => setShowActions(!showActions)}
-                      className="border border-black/10 hover:bg-black/10 transition-colors p-2 rounded-lg flex flex-row items-center justify-between w-full"
-                    >
-                      <span>Acciones</span>
-                      <IconCaretDownFilled
-                        className={`w-5 h-5 transition-transform duration-300 ${
-                          showActions && "rotate-180"
-                        }`}
-                      />
-                    </button>
-                    <div
-                      className={`absolute top-[110%] w-full bg-white rounded-lg shadow border border-black/10 overflow-hidden ${
-                        showActions ? "flex flex-col" : "hidden"
-                      }`}
-                    >
-                      <button className="p-2 border-b border-black/10 w-full text-left hover:bg-black/10 transition-colors">
-                        Generar boletin de notas
-                      </button>
-                      <button className="p-2 border-b border-black/10 w-full text-left hover:bg-black/10 transition-colors">
-                        Generar constancia de estudio
-                      </button>
-                      <button className="p-2 w-full text-left hover:bg-black/10 transition-colors">
-                        Notas certificadas
-                      </button>
+                    <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
+                      <h4 className="font-semibold">Materia</h4>
+                      <span>20/20</span>
+                    </div>
+                    <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
+                      <h4 className="font-semibold">Materia</h4>
+                      <span>20/20</span>
+                    </div>
+                    <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
+                      <h4 className="font-semibold">Materia</h4>
+                      <span>20/20</span>
+                    </div>
+                    <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
+                      <h4 className="font-semibold">Materia</h4>
+                      <span>20/20</span>
+                    </div>
+                    <div className="bg-black/5 p-2 rounded-lg flex flex-row justify-between">
+                      <h4 className="font-semibold">Materia</h4>
+                      <span>20/20</span>
                     </div>
                   </>
-                ) : (
-                  <Link
-                    href="#"
-                    className="border border-black/10 hover:bg-black/10 transition-colors p-2 rounded-lg flex flex-row justify-between w-full"
-                  >
-                    Ver mas...
-                  </Link>
                 )}
+                <div className="relative">
+                  {session.roleUser === USERS_ROLES.DIRECTOR &&
+                    students?.students.status === STUDENTS_STATUS.VERIFIED && (
+                      <>
+                        <button
+                          onClick={() => setShowActions(!showActions)}
+                          className="border border-black/10 hover:bg-black/10 transition-colors p-2 rounded-lg flex flex-row items-center justify-between w-full"
+                        >
+                          <span>Acciones</span>
+                          <IconCaretDownFilled
+                            className={`w-5 h-5 transition-transform duration-300 ${
+                              showActions && "rotate-180"
+                            }`}
+                          />
+                        </button>
+                        <div
+                          className={`absolute top-[110%] w-full bg-white rounded-lg shadow border border-black/10 overflow-hidden ${
+                            showActions ? "flex flex-col" : "hidden"
+                          }`}
+                        >
+                          <button className="p-2 border-b border-black/10 w-full text-left hover:bg-black/10 transition-colors">
+                            Generar boletin de notas
+                          </button>
+                          <button className="p-2 border-b border-black/10 w-full text-left hover:bg-black/10 transition-colors">
+                            Generar constancia de estudio
+                          </button>
+                          <button className="p-2 w-full text-left hover:bg-black/10 transition-colors">
+                            Notas certificadas
+                          </button>
+                        </div>
+                      </>
+                    )}
+
+                  {session.roleUser === USERS_ROLES.TEACHER &&
+                    students?.students.status === STUDENTS_STATUS.VERIFIED && (
+                      <>
+                        <button
+                          onClick={() => setShowActions(!showActions)}
+                          className="border border-black/10 hover:bg-black/10 transition-colors p-2 rounded-lg flex flex-row items-center justify-between w-full"
+                        >
+                          <span>Acciones</span>
+                          <IconCaretDownFilled
+                            className={`w-5 h-5 transition-transform duration-300 ${
+                              showActions && "rotate-180"
+                            }`}
+                          />
+                        </button>
+                        <div
+                          className={`absolute top-[110%] w-full bg-white rounded-lg shadow border border-black/10 overflow-hidden ${
+                            showActions ? "flex flex-col" : "hidden"
+                          }`}
+                        >
+                          <button className="p-2 border-b border-black/10 w-full text-left hover:bg-black/10 transition-colors">
+                            Cargar notas
+                          </button>
+                          <button className="p-2 border-b border-black/10 w-full text-left hover:bg-black/10 transition-colors">
+                            Cargar asistencias e inasistencias
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  {students?.students.status !==
+                    STUDENTS_STATUS.PENDUNDER_REVIEW &&
+                    session.roleUser === USERS_ROLES.REPRESENTATIVE && (
+                      <Link
+                        href="#"
+                        className="border border-black/10 hover:bg-black/10 transition-colors p-2 rounded-lg flex flex-row justify-between w-full"
+                      >
+                        Ver mas...
+                      </Link>
+                    )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
+
+          {session.roleUser === USERS_ROLES.DIRECTOR &&
+            students?.students.status === STUDENTS_STATUS.PENDUNDER_REVIEW && (
+              <>
+                <button className="w-full text-center bg-green-500 text-white p-3 bottom-0 mt-2 rounded-lg hover:bg-green-600 font-semibold transition-colors">
+                  Verificar estudiante
+                </button>
+              </>
+            )}
         </div>
 
         <div className="p-5 flex flex-col items-center bg-white rounded-xl border border-black/5 shadow-sm max-w-96 w-full">

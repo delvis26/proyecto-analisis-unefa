@@ -1,8 +1,14 @@
 "use client";
 
 import GetStudents from "@/actions/get-students";
-import { IconEye, IconSearch } from "@/components/icons";
+import {
+  IconChecks,
+  IconClockHour3,
+  IconEye,
+  IconSearch,
+} from "@/components/icons";
 import TextSkeleton from "@/components/skeleton";
+import { STUDENTS_STATUS } from "@/lib/consts";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -81,6 +87,7 @@ export default function Students() {
             <div>Nombre completo</div>
             <div>Curso</div>
             <div>Representante</div>
+            <div className="text-center">Estado</div>
             <div className="flex justify-end">Acciones</div>
           </div>
 
@@ -99,7 +106,27 @@ export default function Students() {
                 {Number(item.students.course) === 4 && "4to año"}
                 {Number(item.students.course) === 5 && "5to año"}
               </div>
+
               <div>{item.users.fullName}</div>
+              <div
+                className={`flex justify-center ${
+                  item.students.status === STUDENTS_STATUS.PENDUNDER_REVIEW
+                    ? "bg-yellow-200 text-yellow-600"
+                    : "bg-green-200 text-green-600"
+                }  py-1 font-semibold  rounded-lg text-xs md:text-base`}
+              >
+                {item.students.status === STUDENTS_STATUS.PENDUNDER_REVIEW ? (
+                  <div className="flex flex-row gap-0.5 items-center">
+                    <IconClockHour3 className="w-5 h-5" />
+                    En revision
+                  </div>
+                ) : (
+                  <div className="flex flex-row gap-0.5 items-center">
+                    <IconChecks className="w-5 h-5" />
+                    Verificado
+                  </div>
+                )}
+              </div>
               <div className="flex justify-end">
                 <Link
                   className="p-1 md:px-2 bg-blue-600 hover:bg-blue-800 transition-colors text-white rounded-lg shadow flex justify-center items-center gap-1"

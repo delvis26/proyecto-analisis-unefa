@@ -50,6 +50,12 @@ export const navigationLinks: NavLink[] = [
     type_user: USERS_ROLES.REPRESENTATIVE,
   },
   {
+    href: "/students",
+    icon: <IconSchool className="w-6 h-6" />,
+    label: "Mis estudiantes",
+    type_user: USERS_ROLES.TEACHER
+  },
+  {
     href: "#",
     icon: <IconClockHour9 className="w-6 h-6" />,
     label: "Horarios",

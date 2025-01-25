@@ -118,7 +118,7 @@ export default function StudensRepresented() {
                 <div className="flex justify-end">
                   <Link
                     className="p-1 md:px-2 bg-blue-600 hover:bg-blue-800 transition-colors text-white rounded-lg shadow flex justify-center items-center gap-1"
-                    href={`student/${student.id}`}
+                    href={`students/${student.id}`}
                   >
                     <IconEye className="w-6 h-6" />
                     <span className="hidden md:block">Visualizar</span>
