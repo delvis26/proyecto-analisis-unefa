@@ -1,7 +1,7 @@
 "use client";
 
 import GetGeneralPayments from "@/actions/get-general-payments";
-import { IconSearch } from "@/components/icons";
+import { IconFileTypePdf, IconSearch } from "@/components/icons";
 import TextSkeleton from "@/components/skeleton";
 import { ARRAY_CONCEPTS } from "@/lib/consts";
 import { useEffect, useState } from "react";
@@ -84,7 +84,8 @@ export default function Payments() {
             <div>Cedula</div>
             <div>Concepto</div>
             <div>Monto</div>
-            <div className="flex justify-end">Referencia</div>
+            <div>Referencia</div>
+            <div className="flex justify-end">Acciones</div>
           </div>
 
           {payments.length > 0 &&
@@ -108,11 +109,15 @@ export default function Payments() {
                     {item.payments.concept === ARRAY_CONCEPTS[3].concept &&
                       ARRAY_CONCEPTS[3].label}
                   </div>
-                  <div>
-                    Bs. {item.payments.amount}
-                  </div>
+                  <div>Bs. {item.payments.amount}</div>
+                  <div>{item.payments.bankReference}</div>
                   <div className="flex justify-end">
-                    {item.payments.bankReference}
+                    <button
+                      className="p-1 md:px-2 bg-red-600 hover:bg-red-800 transition-colors text-white rounded-lg shadow flex justify-center items-center gap-1"
+                    >
+                      <IconFileTypePdf className="w-6 h-6" />
+                      <span className="hidden md:block">Recibo</span>
+                    </button>
                   </div>
                 </div>
               );
