@@ -199,7 +199,7 @@ export default function Student() {
                             Generar constancia de estudio
                           </button>
                           <button className="p-2 w-full text-left hover:bg-black/10 transition-colors">
-                            Notas certificadas
+                            Generar notas certificadas
                           </button>
                         </div>
                       </>
