@@ -8,6 +8,34 @@
       "when": 1735174158792,
       "tag": "0000_worthless_mandrill",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1751383607604,
+      "tag": "0001_mighty_amphibian",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1751389726738,
+      "tag": "0002_red_captain_stacy",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1751390134165,
+      "tag": "0003_quick_jetstream",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1751399839548,
+      "tag": "0004_worried_solo",
+      "breakpoints": true
     }
   ]
 }

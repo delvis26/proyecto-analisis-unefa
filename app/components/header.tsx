@@ -38,7 +38,7 @@ export default function Header() {
               <li>
                 <Link
                   className="px-6 py-3 flex flex-row border-b border-black/10 gap-2 text-black/80 hover:bg-black/5 transition-colors"
-                  href="#"
+                  href="/profile"
                 >
                   <IconUserScan className="w-6 h-6" />
                   Mi perfil

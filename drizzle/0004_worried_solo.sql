@@ -1,0 +1,1 @@
+ALTER TABLE `payments` ADD `used` integer NOT NULL;

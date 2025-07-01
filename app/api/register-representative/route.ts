@@ -26,6 +26,8 @@ export async function POST(request: NextRequest) {
 
   if (!token) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
+  const regex = /^\d+$/
+
   try {
     const secret = process.env.SECRET_JWT_KEY as string;
     const userRequest = jwt.verify(token, secret) as User;
@@ -50,9 +52,6 @@ export async function POST(request: NextRequest) {
 
     if (
       !name ||
-      !middle_name ||
-      !last_name ||
-      !second_last_name ||
       !nationality ||
       !identification_number ||
       !phone ||
@@ -60,12 +59,6 @@ export async function POST(request: NextRequest) {
       !adress
     )
       return NextResponse.json({ error: "Bad request" }, { status: 400 });
-
-    if (!gender)
-      return NextResponse.json(
-        { error: MESSAGES.ERROR_SELECTED_GENDER },
-        { status: 400 }
-      );
 
     const identification = `${nationality}${identification_number}`;
 
@@ -108,8 +101,16 @@ export async function POST(request: NextRequest) {
         );
     }
 
+    if(!regex.test(identification_number) || parseInt(identification) < 0) {
+      return NextResponse.json({ error: MESSAGES.ERROR_INVALID_FORMAT_IDENTIFICATION })
+    }
+
+    if(!regex.test(phone) || parseInt(phone) < 1) {
+      return NextResponse.json({ error: MESSAGES.ERROR_INVALID_FORMAT_PHONE })
+    }
+
     const userId = crypto.randomUUID();
-    const fullName = `${name} ${middle_name} ${last_name} ${second_last_name}`;
+    const fullName = `${name} ${middle_name === undefined ? "" : middle_name} ${last_name === undefined ? "" : last_name} ${second_last_name === undefined ? "" : second_last_name}`;
     const hashedPassword = await bcrypt.hash(identification, 10);
 
     await db.insert(Users).values({
@@ -130,6 +131,8 @@ export async function POST(request: NextRequest) {
       if (e.message === API_ERRORS.TOKEN_EXPIRED)
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+
+    console.log(e)
 
     return NextResponse.json({ error: MESSAGES.ERROR }, { status: 500 });
   }

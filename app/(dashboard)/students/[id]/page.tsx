@@ -1,6 +1,7 @@
 "use client";
 
 import GetStudent from "@/actions/get-student";
+import VerifyStudent from "@/actions/verify-student";
 import {
   IconCalendarEvent,
   IconCaretDownFilled,
@@ -16,9 +17,9 @@ import {
 import TextSkeleton from "@/components/skeleton";
 import { GENDERS, STUDENTS_STATUS, USERS_ROLES } from "@/lib/consts";
 import UserContext from "@/store/user-context";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface Students {
   id: string;
@@ -35,7 +36,7 @@ interface User {
   password: string;
   roleUser: string;
   fullName: string;
-  gender: string;
+  gender: string | null;
   identification: string;
   email: string;
   phone: string;
@@ -58,6 +59,8 @@ export default function Student() {
   const [date, setDate] = useState<string>();
   const [pending, setPending] = useState(true);
   const [showActions, setShowActions] = useState(false);
+  const [verifyPending, setVerifyPending] = useState(false)
+  const [verify, setVerify] = useState(false)
 
   const session = useContext(UserContext);
 
@@ -75,6 +78,12 @@ export default function Student() {
 
         const _phoneFormated = `(${phoneOperator}) ${phoneNumberPartOne}-${phoneNumberPartTwo}`;
 
+        if(res[0].students.status === STUDENTS_STATUS.PENDUNDER_REVIEW) {
+          setVerify(false)
+        } else {
+          setVerify(true)
+        }
+
         setPhoneFormated(_phoneFormated);
         const dateFormated = new Date(
           res[0].students.createdAt
@@ -87,6 +96,26 @@ export default function Student() {
 
     getData();
   }, []);
+
+  const handleButtonVerify = async () => {
+    const result = await VerifyStudent(idParam)
+    
+    const toastId = toast.loading("Cargando...")
+    setVerifyPending(true)
+
+    if(result?.success) {
+      toast.success("Estudiante verificado con exito", {
+        id: toastId
+      })
+
+      setVerify(true)
+    } else {
+      setVerifyPending(false)
+      toast.error("Ha ocurrido un error", {
+        id: toastId
+      })
+    }
+  }
 
   return (
     <>
@@ -173,7 +202,7 @@ export default function Student() {
                   </>
                 )}
                 <div className="relative">
-                  {session.roleUser === USERS_ROLES.DIRECTOR &&
+                  {(session.roleUser === USERS_ROLES.DIRECTOR || session.roleUser === USERS_ROLES.REPRESENTATIVE) &&
                     students?.students.status === STUDENTS_STATUS.VERIFIED && (
                       <>
                         <button
@@ -233,25 +262,16 @@ export default function Student() {
                         </div>
                       </>
                     )}
-                  {students?.students.status !==
-                    STUDENTS_STATUS.PENDUNDER_REVIEW &&
-                    session.roleUser === USERS_ROLES.REPRESENTATIVE && (
-                      <Link
-                        href="#"
-                        className="border border-black/10 hover:bg-black/10 transition-colors p-2 rounded-lg flex flex-row justify-between w-full"
-                      >
-                        Ver mas...
-                      </Link>
-                    )}
+                  
                 </div>
               </div>
             )}
           </div>
 
-          {session.roleUser === USERS_ROLES.DIRECTOR &&
+          {session.roleUser === USERS_ROLES.DIRECTOR && verify === false &&
             students?.students.status === STUDENTS_STATUS.PENDUNDER_REVIEW && (
               <>
-                <button className="w-full text-center bg-green-500 text-white p-3 bottom-0 mt-2 rounded-lg hover:bg-green-600 font-semibold transition-colors">
+                <button disabled={verifyPending} onClick={handleButtonVerify} className="w-full text-center bg-green-500 text-white p-3 bottom-0 mt-2 rounded-lg hover:bg-green-600 font-semibold transition-colors disabled:opacity-50">
                   Verificar estudiante
                 </button>
               </>

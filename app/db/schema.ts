@@ -1,16 +1,16 @@
 import { relations } from "drizzle-orm";
-import { sqliteTable, text, numeric, real } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, numeric, real, integer } from "drizzle-orm/sqlite-core";
 
 export const Users = sqliteTable("users", {
   id: text("id").notNull().primaryKey().unique(),
   password: text("password").notNull(),
   roleUser: text("role_user").notNull(),
   fullName: text("full_name").notNull(),
-  gender: text("gender").notNull(),
+  gender: text("gender"),
   identification: text("identification").notNull().unique(),
   email: text("email").notNull().unique(),
   phone: text("phone").notNull().unique(),
-  adress: text("adress").notNull().unique(),
+  adress: text("adress").notNull(),
   status: text("status"),
   createdAt: text("created_at").notNull(),
 });
@@ -37,7 +37,8 @@ export const Payments = sqliteTable("payments", {
   concept: text("concept").notNull(),
   studentId: text("student_id").notNull().references(() => Students.id),
   representativeId: text("representative_id").notNull().references(() => Users.id),
-  createdAt: text("created_at").notNull()
+  createdAt: text("created_at").notNull(),
+  used: integer("used").notNull()
 })
 
 export const parentRelation = relations(Users, ({ many }) => ({
@@ -72,3 +73,5 @@ export const PaymentUserRelation = relations(Payments, ({ one }) => ({
     references: [Users.id]
   })
 }))
+
+export type Payment = typeof Payments.$inferSelect

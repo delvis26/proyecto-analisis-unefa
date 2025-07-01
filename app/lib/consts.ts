@@ -8,7 +8,9 @@ export const MESSAGES = {
     PHONE_NUMBER_IS_REGISTERED: 'El numero de telefono se encuentra registrado',
     RECORD_ADDED_SUCCESSFULLY: '¡Registro añadido con exito!',
     ERROR_SELECTED_GENDER: "Indique un sexo",
-    ERROR_SELECTED_COURSE: "Indique el año a cursar"
+    ERROR_SELECTED_COURSE: "Indique el año a cursar",
+    ERROR_INVALID_FORMAT_IDENTIFICATION: "Indique un numero de identificación valido",
+    ERROR_INVALID_FORMAT_PHONE: "Indique un numero de telefono valido"
 }
 
 export const API_ERRORS = {

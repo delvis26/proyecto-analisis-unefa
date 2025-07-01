@@ -4,7 +4,7 @@ import { RegisterRepresentative } from "@/actions/register-representative";
 import { GENDERS, MESSAGES, USERS_ROLES } from "@/lib/consts";
 import UserContext from "@/store/user-context";
 import { redirect } from "next/navigation";
-import { FormEvent, useCallback, useContext, useState } from "react";
+import { FormEvent, useCallback, useContext, useRef, useState } from "react";
 import { toast } from "sonner";
 
 export default function AddRepresentative() {
@@ -13,9 +13,18 @@ export default function AddRepresentative() {
   const [errorInputEmail, setErrorInputEmail] = useState(false);
   const [errorInputPhone, setErrorInputPhone] = useState(false);
   const [errorInputGender, setErrorInputGender] = useState(false);
+  const prefixRef = useRef<HTMLSelectElement>(null);
+  const [juridico, setJuridico] = useState(false)
 
   const handleInputIdCard = useCallback(() => {
     setErrorInputIdCard(false);
+    
+    if(prefixRef.current?.value === "J") {
+      setJuridico(true)
+    } else {
+      setJuridico(false)
+    }
+
   }, []);
 
   const handleInputEmail = useCallback(() => {
@@ -85,32 +94,33 @@ export default function AddRepresentative() {
             required
             className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
             type="text"
-            placeholder="Nombre"
+            placeholder={juridico ? "Nombre del responsable" : "Nombre"}
             name="name"
           />
           <input
-            required
-            className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
+            className="disabled:opacity-50 w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
             type="text"
-            placeholder="Segundo nombre"
+            placeholder="Segundo nombre (opcional)"
             name="middle_name"
+            disabled={juridico}
           />
         </div>
 
         <div className="flex items-center gap-3">
           <input
             required
-            className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
+            className="disabled:opacity-50 w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
             type="text"
             placeholder="Apellido"
             name="last_name"
+            disabled={juridico}
           />
           <input
-            required
-            className="w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
+            className="disabled:opacity-50 w-full px-3 py-3 rounded-xl border border-black/20 transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none"
             type="text"
-            placeholder="Segundo apellido"
+            placeholder="Segundo apellido (opcional)"
             name="second_last_name"
+            disabled={juridico}
           />
         </div>
 
@@ -122,12 +132,14 @@ export default function AddRepresentative() {
           >
             <div className="absolute inset-y-0 flex items-center">
               <select
+                ref={prefixRef}
                 onChange={handleInputIdCard}
                 name="nationality"
                 className="h-full outline-none px-3 border-r border-black/20 bg-transparent"
               >
                 <option value="V">V</option>
                 <option value="E">E</option>
+                <option value="J">J</option>
               </select>
             </div>
             <input
@@ -136,7 +148,7 @@ export default function AddRepresentative() {
               name="identification_number"
               className="w-full pl-16 pr-3 py-3 outline-none"
               type="text"
-              placeholder="Cedula de identidad"
+              placeholder="Identificación"
             />
           </div>
           <input
@@ -151,10 +163,11 @@ export default function AddRepresentative() {
           />
 
           <select
+            disabled={juridico}
             onChange={handleInputGender}
             name="gender"
             defaultValue="null"
-            className={`w-full px-3 py-3 rounded-xl border ${
+            className={`disabled:opacity-50 w-full px-3 py-3 rounded-xl border ${
               errorInputGender ? "border-red-500" : "border-black/20"
             } transition-shadow ring-blue-500/20 focus:ring-[3px] outline-none`}
           >

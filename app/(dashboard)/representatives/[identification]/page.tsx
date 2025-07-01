@@ -28,7 +28,7 @@ interface Representative {
   id: string;
   fullName: string;
   identification: string;
-  gender: string;
+  gender: string | null;
   email: string;
   phone: string;
   status: string | null;
@@ -133,9 +133,9 @@ export default function Representative() {
                 )}
               </span>
 
-              <span className="flex gap-2 p-2 border border-gray-400 border-dashed rounded-lg items-center justify-between flex-1">
-                <div className="flex flex-1 gap-2 items-center overflow-hidden">
-                  {pendingData === false && (
+              <div className="flex gap-2 p-2 border border-gray-400 border-dashed rounded-lg items-center justify-between flex-1">
+                <span className="flex flex-1 gap-2 items-center overflow-hidden">
+                  {pendingData === false && data?.gender !== null && (
                     <>
                       {data?.gender === GENDERS.MALE ? (
                         <IconGenderMale className="w-8 h-8 stroke-blue-600" />
@@ -146,8 +146,8 @@ export default function Representative() {
                     </>
                   )}
                   {pendingData === true && <TextSkeleton h="27px" />}
-                </div>
-              </span>
+                </span>
+              </div>
             </div>
 
             <div className="flex flex-col md:flex-row gap-4">

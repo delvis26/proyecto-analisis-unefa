@@ -48,7 +48,7 @@ export default function Teacher() {
 
         const phoneFormated = `(${phoneOperator}) ${phoneNumberPartOne}-${phoneNumberPartTwo}`;
 
-        setTeacher({ ...res, phone: phoneFormated });
+        setTeacher({ ...res, phone: phoneFormated, gender: res.gender ?? "" });
         setPending(false);
       }
     };

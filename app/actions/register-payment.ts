@@ -68,6 +68,7 @@ export async function RegisterPayment(formData: FormData) {
       studentId: student.toString(),
       representativeId: userId.toString(),
       createdAt: new Date().toISOString(),
+      used: 0
     });
   } catch(error) {
     console.log(error)

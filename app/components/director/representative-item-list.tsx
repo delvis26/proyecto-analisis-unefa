@@ -18,7 +18,7 @@ export default function RepresentativeItemList({ identification, fullName, statu
         index !== length && "border-b border-black/10"
       }`}
     >
-      <div>{fullName}</div>
+      <div title={fullName}>{fullName}</div>
       <div>{identification}</div>
       <div
         className={`flex justify-center ${

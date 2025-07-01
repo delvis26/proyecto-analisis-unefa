@@ -30,7 +30,8 @@ export async function signIn(formData: FormData) {
     });
     
 
-  } catch {
+  } catch (error) {
+    console.log("Error al iniciar sesión:", error);
     return {
       error: "Algo ha ido mal..."
     }
