@@ -4,15 +4,23 @@ import { useSearchParams } from "next/navigation"
 import { Suspense } from "react"
 import dynamic from "next/dynamic"
 
+// Dynamic import of PDFViewer to avoid SSR issues
+const PDFViewer = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => ({ default: mod.PDFViewer })),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-lg">Cargando PDF...</div>
+      </div>
+    )
+  }
+)
+
 const styles = StyleSheet.create({
     page: { flexDirection: "column", backgroundColor: "#fff" },
     section: { margin: 10, padding: 10, flexGrow: 1 },
 })
-
-const PDFViewer = dynamic(
-    () => import('@react-pdf/renderer').then((mod) => mod.PDFViewer),
-    { ssr: false }
-);
 
 const DocumentComponent = ({ fullName, payRef, date, total, description, identificacion }: { fullName: string, payRef: string, date: string, total: string, description: string, identificacion: string }) => {
     return <Document>
@@ -47,14 +55,10 @@ const PDF = () => {
     const description = params.get("description") as string
     const identificacion = params.get("identificacion") as string
 
-    const _Date = new Date(date).toLocaleString('es-VE')
-
-    return <Suspense fallback={null}>
-        <PDFViewer style={{ width: "100%", height: "100vh" }}>
-            <DocumentComponent fullName={fullName} payRef={ref} date={_Date} total={total} description={description} identificacion={identificacion} />
+    return <PDFViewer style={{ width: "100%", height: "100vh" }}>
+            <DocumentComponent fullName={fullName} payRef={ref} date={date} total={total} description={description} identificacion={identificacion} />
         </PDFViewer>
-    </Suspense>
-}
+  }
 
 export default function PDFPage() { 
     return <Suspense fallback={null}>
