@@ -28,7 +28,9 @@ function PDFPage() {
 }
 
 export default function PDF() {
-    return <Suspense>
-        <PDFPage />
+  return (
+    <Suspense>
+      <PDFPage />
     </Suspense>
+  );
 }

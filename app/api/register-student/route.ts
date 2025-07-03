@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { db } from "@/db";
 import { Students } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 interface User {
   id: string;
@@ -28,10 +29,18 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     console.log(body);
-    const { name, middle_name, last_name, second_last_name, gender, course } =
-      body;
+    const {
+      name,
+      middle_name,
+      last_name,
+      second_last_name,
+      gender,
+      course,
+      nationality,
+      identification_number,
+    } = body;
 
-    if (!name || !middle_name || !last_name || !second_last_name) {
+    if (!name || !last_name) {
       return NextResponse.json({ error: "error..." }, { status: 400 });
     }
 
@@ -47,12 +56,30 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
 
-    const fullName = `${name} ${middle_name} ${last_name} ${second_last_name}`;
+    let identification = null;
+
+    if (nationality && identification_number) {
+      identification = `${nationality}${identification_number}`;
+    }
+
+    const fullName = `${name} ${middle_name === undefined ? "" : middle_name} ${last_name} ${second_last_name === undefined ? "" : second_last_name}`;
     const id = crypto.randomUUID();
+
+    if (nationality && identification_number && identification !== null) {
+      const findStudent = await db
+        .select()
+        .from(Students)
+        .where(eq(Students.identification, identification as string));
+
+        if(findStudent.length > 0) {
+          return NextResponse.json({ error: "La cedula de identidad se encuentra registrada" })
+        }
+    }
 
     await db.insert(Students).values({
       id,
       fullName,
+      identification: identification,
       gender,
       status: STUDENTS_STATUS.PENDUNDER_REVIEW,
       course,

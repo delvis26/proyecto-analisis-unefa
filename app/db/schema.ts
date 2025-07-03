@@ -18,6 +18,7 @@ export const Users = sqliteTable("users", {
 export const Students = sqliteTable("students", {
   id: text("id").notNull().primaryKey().unique(),
   fullName: text("full_name").notNull(),
+  identification: text("identification"),
   gender: text("gender").notNull(),
   status: text("status").notNull(),
   course: numeric("course").notNull(),
