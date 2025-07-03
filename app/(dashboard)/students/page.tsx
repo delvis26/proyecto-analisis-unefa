@@ -11,33 +11,10 @@ import TextSkeleton from "@/components/skeleton";
 import { STUDENTS_STATUS } from "@/lib/consts";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-interface Students {
-  id: string;
-  fullName: string;
-  gender: string;
-  status: string;
-  course: string;
-  createdAt: string;
-  representativeId: string;
-}
-
-interface User {
-  id: string;
-  password: string;
-  roleUser: string;
-  fullName: string;
-  gender: string;
-  identification: string;
-  email: string;
-  phone: string;
-  adress: string;
-  status: string | null;
-  createdAt: string;
-}
+import type { User, Students as StudentType } from "@/db/schema"
 
 interface DataItem {
-  students: Students;
+  students: StudentType;
   users: User;
 }
 
