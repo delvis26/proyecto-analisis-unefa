@@ -20,30 +20,7 @@ import UserContext from "@/store/user-context";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
-
-interface Students {
-  id: string;
-  fullName: string;
-  gender: string;
-  status: string;
-  course: string;
-  createdAt: string;
-  representativeId: string;
-}
-
-interface User {
-  id: string;
-  password: string;
-  roleUser: string;
-  fullName: string;
-  gender: string | null;
-  identification: string;
-  email: string;
-  phone: string;
-  adress: string;
-  status: string | null;
-  createdAt: string;
-}
+import type { Students, User } from "@/db/schema"
 
 interface DataItem {
   students: Students;

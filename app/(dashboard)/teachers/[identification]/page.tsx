@@ -16,17 +16,7 @@ import { GENDERS, USERS_ROLES } from "@/lib/consts";
 import UserContext from "@/store/user-context";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-
-interface User {
-  id: string;
-  fullName: string;
-  gender: string;
-  identification: string;
-  email: string;
-  phone: string;
-  status: string | null;
-  adress: string;
-}
+import type { User } from "@/db/schema"
 
 export default function Teacher() {
   const params = useParams();
@@ -48,7 +38,7 @@ export default function Teacher() {
 
         const phoneFormated = `(${phoneOperator}) ${phoneNumberPartOne}-${phoneNumberPartTwo}`;
 
-        setTeacher({ ...res, phone: phoneFormated, gender: res.gender ?? "" });
+        setTeacher({ ...res, phone: phoneFormated } as User);
         setPending(false);
       }
     };

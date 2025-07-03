@@ -13,19 +13,10 @@ import { STUDENTS_STATUS } from "@/lib/consts";
 import UserContext from "@/store/user-context";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
-
-interface Student {
-  id: string;
-  fullName: string;
-  gender: string;
-  status: string;
-  course: string;
-  createdAt: string;
-  representativeId: string;
-}
+import type { Students } from "@/db/schema";
 
 export default function StudensRepresented() {
-  const [data, setData] = useState<Student[]>([]);
+  const [data, setData] = useState<Students[]>([]);
   const [pending, setPending] = useState(true);
   const session = useContext(UserContext);
 

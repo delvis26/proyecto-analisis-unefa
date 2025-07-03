@@ -25,28 +25,7 @@ import {
   useState,
 } from "react";
 
-interface Student {
-  id: string;
-  fullName: string;
-  gender: string;
-  status: string;
-  course: string;
-  createdAt: string;
-  representativeId: string;
-}
-
-interface Payments {
-  id: string;
-  createdAt: string;
-  identification: string;
-  phone: string;
-  representativeId: string;
-  bank: string;
-  bankReference: string;
-  amount: number;
-  concept: string;
-  studentId: string;
-}
+import type { Students as Student, Payment as Payments } from "@/db/schema";
 
 export default function Payments() {
   const [pending, setPending] = useState(true);

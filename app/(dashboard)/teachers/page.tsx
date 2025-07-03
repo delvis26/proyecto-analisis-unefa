@@ -5,20 +5,7 @@ import { IconEye, IconSearch } from "@/components/icons";
 import TextSkeleton from "@/components/skeleton";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-interface User {
-  id: string;
-  password: string;
-  roleUser: string;
-  fullName: string;
-  gender: string;
-  identification: string;
-  email: string;
-  phone: string;
-  adress: string;
-  status: string | null;
-  createdAt: string;
-}
+import type { User } from "@/db/schema"
 
 export default function Teachers() {
   const [pending, setPending] = useState(true);
