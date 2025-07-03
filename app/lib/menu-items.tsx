@@ -59,12 +59,6 @@ export const navigationLinks: NavLink[] = [
   },
   {
     href: "#",
-    icon: <IconClockHour9 className="w-6 h-6" />,
-    label: "Horarios",
-    type_user: "all",
-  },
-  {
-    href: "#",
     icon: <IconListLetters className="w-6 h-6" />,
     label: "Secciones",
     type_user: USERS_ROLES.DIRECTOR,
