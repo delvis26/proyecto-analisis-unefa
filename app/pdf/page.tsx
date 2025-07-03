@@ -1,11 +1,18 @@
 "use client"
-import { Page, Text, View, Document, StyleSheet, PDFViewer, Image } from "@react-pdf/renderer"
+import { Page, Text, View, Document, StyleSheet, Image } from "@react-pdf/renderer"
 import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
+import dynamic from "next/dynamic"
 
 const styles = StyleSheet.create({
     page: { flexDirection: "column", backgroundColor: "#fff" },
     section: { margin: 10, padding: 10, flexGrow: 1 },
 })
+
+const PDFViewer = dynamic(
+  () => import('@react-pdf/renderer').then((mod) => mod.PDFViewer),
+  { ssr: false }
+);
 
 const DocumentComponent = ({ fullName, payRef, date, total, description, identificacion }: { fullName: string, payRef: string, date: string, total: string, description: string, identificacion: string }) => {
     return <Document>
@@ -31,7 +38,7 @@ const DocumentComponent = ({ fullName, payRef, date, total, description, identif
     </Document>
 }
 
-export default function PDF() {
+const PDF = () => {
     const params = useSearchParams()
     const fullName = params.get("fullName") as string
     const ref = params.get("ref") as string
@@ -42,7 +49,13 @@ export default function PDF() {
 
     const _Date = new Date(date).toLocaleString('es-VE')
 
-    return <PDFViewer style={{ width: "100%", height: "100vh" }}>
-        <DocumentComponent fullName={fullName} payRef={ref} date={_Date} total={total} description={description} identificacion={identificacion} />
-    </PDFViewer>
+    return <Suspense fallback={null}>
+        <PDFViewer style={{ width: "100%", height: "100vh" }}>
+            <DocumentComponent fullName={fullName} payRef={ref} date={_Date} total={total} description={description} identificacion={identificacion} />
+        </PDFViewer>
+    </Suspense>
+}
+
+export default function PDFPage() { 
+    return <PDF />
 }
