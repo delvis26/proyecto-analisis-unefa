@@ -1,10 +1,10 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { PDFViewer } from "@react-pdf/renderer";
 import DocumentComponent from "@/components/recibo-pdf";
+import { PDFViewer } from "@react-pdf/renderer";
+import { Suspense } from "react";
 
-
-export default function PDFPage() {
+function PDFPage() {
   const params = useSearchParams();
   const fullName = params.get("fullName") as string;
   const ref = params.get("ref") as string;
@@ -25,4 +25,10 @@ export default function PDFPage() {
       />
     </PDFViewer>
   );
+}
+
+export default function PDF() {
+    return <Suspense>
+        <PDFPage />
+    </Suspense>
 }
