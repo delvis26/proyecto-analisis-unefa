@@ -5,7 +5,6 @@ import {
   IconUsersGroup,
   IconSchool,
   IconUserScreen,
-  IconClockHour9,
   IconListLetters,
   IconCash,
   IconSettings,
