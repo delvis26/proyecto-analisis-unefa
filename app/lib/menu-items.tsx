@@ -56,12 +56,6 @@ export const navigationLinks: NavLink[] = [
     type_user: USERS_ROLES.TEACHER
   },
   {
-    href: "#",
-    icon: <IconListLetters className="w-6 h-6" />,
-    label: "Mis secciones",
-    type_user: USERS_ROLES.TEACHER,
-  },
-  {
     href: "/payments",
     icon: <IconCash className="w-6 h-6" />,
     label: "Pagos",
