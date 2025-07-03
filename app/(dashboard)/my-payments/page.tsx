@@ -184,7 +184,7 @@ export default function Payments() {
                   <div>{payment.amount} Bs</div>
                   <div className="flex justify-center">{formatedDate}</div>
                   <div className="flex justify-end">
-                    <Link target="_blank" href={`/pdf/?fullName=${session.fullName}&identificacion=${session.identification}&ref=${payment.bankReference}&date=${new Date(payment.createdAt).toLocaleDateString('es-VE')}&description=${payment.concept}&total=${payment.amount}`} className="p-1 md:px-2 bg-red-600 hover:bg-red-800 transition-colors text-white rounded-lg shadow flex justify-center items-center gap-1">
+                    <Link target="_blank" href={`/pdf/?fullName=${session.fullName}&identificacion=${session.identification}&ref=${payment.bankReference}&date=${formatedDate}&description=${payment.concept}&total=${payment.amount}`} className="p-1 md:px-2 bg-red-600 hover:bg-red-800 transition-colors text-white rounded-lg shadow flex justify-center items-center gap-1">
                       <IconFileTypePdf className="w-6 h-6" />
                       <span className="hidden md:block">Recibo</span>
                     </Link>

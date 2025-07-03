@@ -75,3 +75,4 @@ export const PaymentUserRelation = relations(Payments, ({ one }) => ({
 }))
 
 export type Payment = typeof Payments.$inferSelect
+export type User = typeof Users.$inferSelect

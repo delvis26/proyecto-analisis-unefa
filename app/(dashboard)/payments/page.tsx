@@ -5,33 +5,7 @@ import { IconFileTypePdf, IconSearch } from "@/components/icons";
 import TextSkeleton from "@/components/skeleton";
 import { ARRAY_CONCEPTS } from "@/lib/consts";
 import { useEffect, useState } from "react";
-
-interface Payment {
-  id: string;
-  createdAt: string;
-  identification: string;
-  phone: string;
-  representativeId: string;
-  bank: string;
-  bankReference: string;
-  amount: number;
-  concept: string;
-  studentId: string;
-}
-
-interface User {
-  id: string;
-  password: string;
-  roleUser: string;
-  fullName: string;
-  gender: string;
-  identification: string;
-  email: string;
-  phone: string;
-  adress: string;
-  status: string | null;
-  createdAt: string;
-}
+import type { Payment, User } from "@/db/schema";
 
 interface DataItem {
   payments: Payment;
