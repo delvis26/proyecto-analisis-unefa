@@ -5,7 +5,6 @@ import {
   IconUsersGroup,
   IconSchool,
   IconUserScreen,
-  IconListLetters,
   IconCash,
   IconSettings,
 } from "@/components/icons";
@@ -55,12 +54,6 @@ export const navigationLinks: NavLink[] = [
     icon: <IconSchool className="w-6 h-6" />,
     label: "Estudiantes",
     type_user: USERS_ROLES.TEACHER
-  },
-  {
-    href: "#",
-    icon: <IconListLetters className="w-6 h-6" />,
-    label: "Secciones",
-    type_user: USERS_ROLES.DIRECTOR,
   },
   {
     href: "#",
