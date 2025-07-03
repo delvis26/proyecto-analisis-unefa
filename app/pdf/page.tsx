@@ -1,18 +1,12 @@
 "use client"
-import { Page, Text, View, Document, StyleSheet, Image } from "@react-pdf/renderer"
+import { Page, Text, View, Document, StyleSheet, Image, PDFViewer } from "@react-pdf/renderer"
 import { useSearchParams } from "next/navigation"
 import { Suspense } from "react"
-import dynamic from "next/dynamic"
 
 const styles = StyleSheet.create({
     page: { flexDirection: "column", backgroundColor: "#fff" },
     section: { margin: 10, padding: 10, flexGrow: 1 },
 })
-
-const PDFViewer = dynamic(
-  () => import('@react-pdf/renderer').then((mod) => mod.PDFViewer),
-  { ssr: false }
-);
 
 const DocumentComponent = ({ fullName, payRef, date, total, description, identificacion }: { fullName: string, payRef: string, date: string, total: string, description: string, identificacion: string }) => {
     return <Document>
